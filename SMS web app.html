@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css web dev.css">
+    <title>Birthday Wishes</title>
+</head>
+<body>
+    <h1>Manage Users</h1>
+    <form id="user-form">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="phone_number" placeholder="Phone Number" required>
+        <input type="date" id="birthday" required>
+        <button type="submit">Add User</button>
+    </form>
+    <ul id="user-list"></ul>
+
+    <script>
+        document.getElementById('user-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone_number = document.getElementById('phone_number').value;
+            const birthday = document.getElementById('birthday').value;
+
+            await fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone_number, birthday })
+            });
+
+            loadUsers();
+        });
+
+        async function loadUsers() {
+            const response = await fetch('/users');
+            const users = await response.json();
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = $;{user.name} - $;{user.phone_number} - $;{user.birthday};
+                userList.appendChild(li);
+            });
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
